@@ -1,0 +1,36 @@
+{
+  "variables": {
+    "aws_access_key": "{{env `AWS_ACCESS_KEY`}}",
+    "aws_secret_key": "{{env `AWS_SECRET_ACCESS_KEY`}}",
+    "region": "us-east-1",
+    "ssh_username": "ec2-user",
+    "base_ami": "ami-0e6d2e8684d4ccb3e",
+    "instance_type": "t2.micro"
+  },
+  "builders": [
+    {
+      "type": "amazon-ebs",
+      "access_key": "{{user `aws_access_key`}}",
+      "secret_key": "{{user `aws_secret_key` }}",
+      "region": "{{user `region` }}",
+      "source_ami": "{{user `base_ami`}}",
+      "instance_type": "{{user `instance_type` }}",
+      "ssh_username": "{{user `ssh_username`}}",
+      "ami_name": "packer-base-{{timestamp}}",
+      "associate_public_ip_address": true
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline": [
+        "echo ENABLE NGINX",
+        "sudo amazon-linux-extras enable nginx1.12",
+        "echo INSTALL NGINX",
+        "sudo yum -y install nginx",
+        "echo START NGINX",
+        "sudo systemctl start nginx"
+      ]
+    }
+  ]
+}
