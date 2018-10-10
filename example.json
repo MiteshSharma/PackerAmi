@@ -29,7 +29,7 @@
         "echo INSTALL NGINX",
         "sudo yum -y install nginx",
         "echo START NGINX",
-        "sudo systemctl start nginx"
+        "sudo systemctl enable nginx"
       ]
     }
   ]
